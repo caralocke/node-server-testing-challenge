@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Pets = require('./pets-model')
+const { validatePet } = require('./pets-middleware')
 
 router.get('/', (req, res, next) => {
     Pets.getAll()
@@ -11,5 +12,14 @@ router.get('/', (req, res, next) => {
             res.status(500).json({ message: `${err.message}`})
         })
 })
+
+router.post('/', validatePet, async (req, res) => {
+    try {
+      res.status(201)
+        .json(await Pets.insert(req.body))
+    } catch (err) {
+      next(err)
+    }
+  })
 
 module.exports = router

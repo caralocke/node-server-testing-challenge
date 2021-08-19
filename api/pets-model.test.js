@@ -25,4 +25,18 @@ describe('Pet db access functions', () => {
             expect(pets[0]).toMatchObject({ pet_id: 1, name: 'Scooby'})
         })
     })
+    
+    describe('Pets.insert', () => {
+        it('adds a new pet to the table', async () => {
+            const newPet = { pet_id: 4, name: 'Foxy'}
+            await Pets.insert(newPet)
+            const pets = await db('pets')
+            expect(pets).toHaveLength(4)
+        })
+        it('returns the newly created pet', async () => {
+            const pet = { pet_id: 4, name: 'Foxy'}
+            const newPet = await Pets.insert(pet)
+            expect(newPet).toMatchObject(pet)
+        })
+    })
 })
