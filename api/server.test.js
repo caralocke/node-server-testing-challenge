@@ -20,3 +20,20 @@ describe('[GET] /pets',  () => {
         expect(res.type).toBe('application/json')
     })
 })
+
+describe('[POST] /pets', () => {
+    it('returns a 201 OK status', async () => {
+        const res = await request(server).post('/pets').send({ name: 'Foxy'})
+        expect(res.status).toBe(201)
+    })
+    it('responds with 422 if no name in payload', async () => {
+        const res = await request(server).post('/pets').send({})
+        expect(res.status).toBe(422)
+    })
+    it('responds with the newly created pet', async () => {
+        let res = await request(server).post('/pets').send({ name: 'Foxy'})
+        expect(res.body).toMatchObject({ name: 'Foxy' })
+        res = await request(server).post('/pets').send({ name: 'Sofi'})
+        expect(res.body).toMatchObject({ name: 'Sofi' })
+    })
+})
