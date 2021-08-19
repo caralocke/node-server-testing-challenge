@@ -39,4 +39,16 @@ describe('Pet db access functions', () => {
             expect(newPet).toMatchObject(pet)
         })
     })
+
+    describe('Pets.remove', () => {
+        it('removes a pet from the table', async () => {
+            await Pets.remove(1)
+            const currentPets = await db('pets')
+            expect(currentPets).toHaveLength(2)
+        })
+        it('returns the deleted pet', async () => {
+            const removed = await Pets.remove(1)
+            expect(removed).toMatchObject({ pet_id: 1, name: 'Scooby'})
+        })
+    })
 })

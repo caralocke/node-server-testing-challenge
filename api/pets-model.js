@@ -3,7 +3,8 @@ const db = require('../data/dbconfig')
 module.exports = {
     getAll,
     getById,
-    insert
+    insert,
+    remove
 }
 
 function getAll() {
@@ -19,3 +20,9 @@ async function insert(pet) {
       return getById(id)
     })
 }
+
+async function remove(id) {
+    const removed = await db('pets').where('pet_id', id).first()
+    await db('pets').del().where('pet_id', id)
+    return removed
+  }
