@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Node Server Testing Challenge",
   "scripts": {
+    "server": "nodemon index.js",
+    "start": "node index.js",
     "up": "knex migrate:up",
     "down": "knex migrate:down",
     "latest": "knex migrate:latest",
