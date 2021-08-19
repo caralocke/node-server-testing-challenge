@@ -37,3 +37,19 @@ describe('[POST] /pets', () => {
         expect(res.body).toMatchObject({ name: 'Sofi' })
     })
 })
+
+describe('[DELETE] /pets/:id', () => {
+    it('returns with a 202 Accepted status', async () => {
+        const res = await request(server).delete('/pets/1')
+        expect(res.status).toBe(202)
+    })
+    it('deletes an item from the database', async () => {
+        await request(server).delete('/pets/1')
+        const currentPets = await db('pets')
+        expect(currentPets).toHaveLength(2)
+    })
+    it('deletes the CORERCT item from the database', async () => {
+       const res = await request(server).delete('/pets/1')
+       expect(res.body).toMatchObject({ pet_id: 1, name: 'Scooby' })
+    })
+})

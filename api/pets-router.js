@@ -22,4 +22,12 @@ router.post('/', validatePet, async (req, res) => {
     }
   })
 
+  router.delete('/:id', async (req, res, next) => {
+      try {
+          res.status(202).json(await Pets.remove(req.params.id))
+      } catch (err) {
+          next()
+      }
+  })
+
 module.exports = router
